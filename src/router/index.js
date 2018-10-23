@@ -113,7 +113,7 @@ export const asyncRouterMap = [ // 需要验证用户权限的页面
   {
     path: '/basic',
     component: Layout, //  redirect: '/system/index',
-    alwaysShow: true, // will always show the root menu
+    alwaysShow: false, // will always show the root menu
     meta: {
       title: '教务基础管理',
       icon: 'setup'

@@ -1,13 +1,12 @@
 import { asyncRouterMap, constantRouterMap } from '@/router'
-import store from '../index'
+// import store from '../index'
 
 /**
  * 通过meta.role判断是否与当前用户权限匹配
  * @param roles
  * @param route
  */
-function hasPermission(roles, route) {
-  console.log('测试1111')
+/* function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
     return roles.some(role => route.meta.roles.indexOf(role) >= 0)
   } else {
@@ -15,11 +14,11 @@ function hasPermission(roles, route) {
   }
 }
 
-/**
+/!**
  * 递归过滤异步路由表，返回符合用户角色权限的路由表
  * @param asyncRouterMap
  * @param roles
- */
+ *!/
 function filterAsyncRouter(asyncRouterMap, roles) {
   const accessedRouters = asyncRouterMap.filter(route => {
     if (hasPermission(roles, route)) {
@@ -31,7 +30,7 @@ function filterAsyncRouter(asyncRouterMap, roles) {
     return false
   })
   return accessedRouters
-}
+}*/
 
 const permission = {
   state: {
@@ -47,12 +46,12 @@ const permission = {
   actions: {
     GenerateRoutes({ commit }, data) {
       return new Promise(resolve => {
-        const { roles } = data
+        const { menuspath } = data
         /* let accessedRouters
          if (roles.indexOf('admin') >= 0) {
            accessedRouters = asyncRouterMap
          } else {*/
-        const accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+        const accessedRouters = filterRiuters(asyncRouterMap, menuspath)
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })
@@ -60,19 +59,16 @@ const permission = {
   }
 }
 
-function filterRiuters(asyncRouterMap) {
+function filterRiuters(asyncRouterMap, menuspath) {
   const accessedRouters = asyncRouterMap.filter(route => {
-    store.dispatch('GetMenus').then(() => {
-      const menuspath = store.getters.menus
-      console.log('------MENUSPATH-------')
-      console.log(menuspath)
-    })
-    if (hasPermission(roles, route)) {
-      if (route.children && route.children.length) {
-        route.children = filterAsyncRouter(route.children, roles)
+    menuspath.forEach((v) => {
+      if (v.path === route.path) {
+        if (v.children && v.children.length) {
+          route.children = filterRiuters(route.children, v.children)
+        }
+        return true
       }
-      return true
-    }
+    })
     return false
   })
   return accessedRouters

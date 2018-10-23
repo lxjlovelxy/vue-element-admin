@@ -14,8 +14,6 @@ const menu = {
       return new Promise(resolve => {
         getMenu().then(response => {
           const menus = response.data.data
-          console.log('--------菜单------------')
-          console.log(menus)
           commit('SET_MENUS', menus)
           resolve()
         })
