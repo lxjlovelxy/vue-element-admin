@@ -111,29 +111,29 @@ export default new Router({
 
 export const asyncRouterMap = [ // 需要验证用户权限的页面
   {
-    path: '/basic',
+    path: '/system',
     component: Layout, //  redirect: '/system/index',
-    alwaysShow: false, // will always show the root menu
+    alwaysShow: true, // will always show the root menu
     meta: {
-      title: '教务基础管理',
+      title: '系统设置',
       icon: 'setup'
     },
     children: [
       {
-        path: 'level',
+        path: 'role',
         component: () => import('@/views/system/sysRole'),
         // component: resolve => require(['@/views/system/sysRole'], resolve),
-        name: '层次管理',
+        name: '角色管理',
         meta: {
-          title: '层次管理'
+          title: '角色管理'
         }
       },
       {
-        path: 'major',
+        path: 'user',
         component: () => import('@/views/system/sysUser'),
-        name: '专业管理',
+        name: '用户管理',
         meta: {
-          title: '专业管理'
+          title: '用户管理'
           // if do not set roles, means: this page does not require permission
         }
       }

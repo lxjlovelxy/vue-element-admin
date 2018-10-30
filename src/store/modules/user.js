@@ -51,7 +51,6 @@ const user = {
       const type = 'account'
       return new Promise((resolve, reject) => {
         loginByUsername(username, $md5(username + userInfo.password), type).then(response => {
-          console.log(response)
           const data = response.data.data
           commit('SET_TOKEN', data.token)
           setToken(response.data.data.token)
